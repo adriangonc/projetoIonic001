@@ -31,6 +31,8 @@ export class FeedPage {
   private sobreNome: string = "de Souza"
   public nomeDoUsuario: string = "Adriano Gonçalves " + this.sobreNome;
 
+  public listaFilmes = new Array<any>();
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private movieProvider: MoovieProvider) {
@@ -44,6 +46,7 @@ export class FeedPage {
     this.movieProvider.getLatestMovies().subscribe(data => {
       const response = (data as any);
       const objeto_retorno = JSON.parse(response._body);
+      this.listaFilmes = objeto_retorno.results;
       console.log(objeto_retorno);
     }, error => {
       console.log(error);

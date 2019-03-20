@@ -15,15 +15,15 @@
   
  
 <ion-content padding>
-  <ion-card>
-    <h2 class="feed_title" #messageSubject>{{ objetoFeed.titulo }}</h2>
-    <p class="txt_feed">{{ objetoFeed.data }}</p>
+  <ion-card *ngFor="let filme of listaFilmes">
+    <h2 class="feed_title" #messageSubject>{{ filme.original_title }}</h2>
+    <p class="txt_feed">{{ filme.release_date }}</p>
    
-    <img src="https://source.unsplash.com/category/technology/600x390">
+    <img [src]=" 'https://image.tmdb.org/t/p/w500/' + filme.backdrop_path">
     <!--<img src="../../assets/images/feed_mg.jpg">-->
  
     <ion-card-content>
-      <p #messageBody>{{ objetoFeed.descricao }}</p>
+      <p #messageBody>{{ filme.overview }}</p>
     </ion-card-content>
  
     <ion-row>
