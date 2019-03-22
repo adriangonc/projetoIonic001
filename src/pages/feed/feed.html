@@ -15,6 +15,11 @@
   
  
 <ion-content padding>
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
   <ion-card *ngFor="let filme of listaFilmes">
     <h2 class="feed_title" #messageSubject>{{ filme.original_title }}</h2>
     <p class="txt_feed">{{ filme.release_date }}</p>

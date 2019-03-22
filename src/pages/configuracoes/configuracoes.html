@@ -1,0 +1,19 @@
+<ion-menu [content]="mycontent" side="start" menuId="first">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Start Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="abrirPerfil()">Perfil</button>
+      <button ion-item (click)="abrirSobre()">Sobre</button>
+     <!-- <button ion-item (click)="openPage(pagina)">Fechar</button>-->
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+<ion-nav id="nav" #mycontent [root]="rootPage"></ion-nav>
+
+

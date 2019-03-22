@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { MoovieProvider } from '../../providers/moovie/moovie';
 
 /**
@@ -28,6 +28,10 @@ export class FeedPage {
     timeComent: "2h ago"
   }
 
+  public loading;
+  public refresher;
+  public isRefreshing: boolean = false;
+
   private sobreNome: string = "de Souza"
   public nomeDoUsuario: string = "Adriano Gonçalves " + this.sobreNome;
 
@@ -35,24 +39,68 @@ export class FeedPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private movieProvider: MoovieProvider) {
+    private movieProvider: MoovieProvider,
+    public loadingCtrl: LoadingController) {
   }
 
   public exibeMensagemBoasVindas(usuario: string): void {
     alert("Bem vindo a primeira página Ionic criada por " + usuario);
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
+    this.carregarFilmes();
+  }
+
+  carregarFilmes(){
+    this.iniciaLoading();
     this.movieProvider.getLatestMovies().subscribe(data => {
       const response = (data as any);
       const objeto_retorno = JSON.parse(response._body);
       this.listaFilmes = objeto_retorno.results;
       console.log(objeto_retorno);
+      this.fechaLoading();
+      this.estaCarregando();
     }, error => {
+      this.estaCarregando();
       console.log(error);
+      this.fechaLoading();
     }
     );
+  }
 
+  iniciaLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Carregando filmes...'
+    });
+  
+    this.loading.present();
+  
+    /*setTimeout(() => {
+      this.loading.dismiss();
+    }, 5000);*/
+   }
+
+  fechaLoading(){
+    this.loading.dismiss();
+  }
+
+  doRefresh(refresher) {
+    this.refresher = refresher;
+    this.isRefreshing = true;
+    this.carregarFilmes();
+    console.log('Begin async operation', refresher);
+
+   /* setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 2000);*/
+  }
+
+  estaCarregando(){
+    if(this.isRefreshing){
+      this.refresher.complete();
+      this.isRefreshing = false;
+    }
   }
 
 }
