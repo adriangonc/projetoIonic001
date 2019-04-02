@@ -1,0 +1,28 @@
+<!--
+  Generated template for the FilmeDetalhesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>filmeDetalhes</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card *ngIf="filme">
+    <h2 class="feed_title" #messageSubject>{{ filme.original_title }}</h2>
+    <p class="txt_date_feed">{{ filme.release_date | date: 'dd/MM/yyyy'}}</p>
+   
+    <img [src]=" 'https://image.tmdb.org/t/p/w500/' + filme.backdrop_path">
+    <!--<img src="../../assets/images/feed_mg.jpg">-->
+ 
+    <ion-card-content>
+      <p #messageBody>{{ filme.overview }}</p>
+    </ion-card-content>
+     
+  </ion-card>
+
+</ion-content>

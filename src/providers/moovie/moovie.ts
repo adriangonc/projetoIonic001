@@ -23,4 +23,8 @@ export class MoovieProvider {
     return this.http.get(this.baseApiPath + "/movie/popular?api_key=" + this.key);
   }
 
+  public getMovieDetails(filmeId) {
+    return this.http.get(this.baseApiPath + "/movie/" + filmeId + "?api_key=" + this.key);
+  }
+
 }
