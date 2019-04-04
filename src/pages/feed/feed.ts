@@ -37,6 +37,8 @@ export class FeedPage {
   public nomeDoUsuario: string = "Adriano Gonçalves " + this.sobreNome;
 
   public listaFilmes = new Array<any>();
+  public page = 1;
+  public infiniteScroll;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -52,12 +54,27 @@ export class FeedPage {
     this.carregarFilmes();
   }
 
-  carregarFilmes(){
+  public doInfinite(infiniteScroll) {
+      this.page++;
+      this.infiniteScroll = infiniteScroll;
+      this.carregarFilmes(true);
+      //infiniteScroll.complete();
+  }
+
+
+  carregarFilmes(newPage: boolean = false){
     this.iniciaLoading();
-    this.movieProvider.getLatestMovies().subscribe(data => {
+    this.movieProvider.getLatestMovies(this.page).subscribe(data => {
       const response = (data as any);
       const objeto_retorno = JSON.parse(response._body);
-      this.listaFilmes = objeto_retorno.results;
+
+      if(newPage){
+        this.listaFilmes = (this.listaFilmes.concat(objeto_retorno.results));
+        this.infiniteScroll.complete();
+      } else {
+        this.listaFilmes = objeto_retorno.results;
+      }
+      
       console.log(objeto_retorno);
       this.fechaLoading();
       this.estaCarregando();
